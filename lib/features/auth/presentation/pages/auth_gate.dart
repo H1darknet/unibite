@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../menu/presentation/pages/menu_page.dart';
 import '../providers/auth_provider.dart';
-import 'home_page.dart';
 import 'login_page.dart';
 
 class AuthGate extends StatelessWidget {
@@ -15,7 +15,7 @@ class AuthGate extends StatelessWidget {
     return switch (status) {
       AuthStatus.unknown =>
         const Scaffold(body: Center(child: CircularProgressIndicator())),
-      AuthStatus.authenticated => const HomePage(),
+      AuthStatus.authenticated => const MenuPage(),
       AuthStatus.unauthenticated => const LoginPage(),
     };
   }

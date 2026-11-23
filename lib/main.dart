@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'core/theme/app_theme.dart';
 import 'features/auth/presentation/pages/auth_gate.dart';
 import 'features/auth/presentation/providers/auth_provider.dart';
+import 'features/menu/presentation/providers/menu_provider.dart';
 import 'firebase_options.dart';
 import 'injection.dart' as di;
 
@@ -26,6 +27,9 @@ class App extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => di.sl<AuthProvider>()..checkAuth(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => di.sl<MenuProvider>(),
         ),
       ],
       child: MaterialApp(
