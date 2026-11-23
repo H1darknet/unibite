@@ -10,6 +10,7 @@ import 'features/auth/domain/usecases/login_usecase.dart';
 import 'features/auth/domain/usecases/logout_usecase.dart';
 import 'features/auth/domain/usecases/register_usecase.dart';
 import 'features/auth/presentation/providers/auth_provider.dart';
+import 'features/cart/presentation/providers/cart_provider.dart';
 import 'features/menu/data/datasources/menu_remote_datasource.dart';
 import 'features/menu/data/repositories/menu_repository_impl.dart';
 import 'features/menu/domain/repositories/menu_repository.dart';
@@ -65,4 +66,7 @@ Future<void> init() async {
       deleteDish: sl(),
     ),
   );
+
+  // Cart: bazasiz, faqat xotirada (datasource va repository kerak emas)
+  sl.registerFactory(() => CartProvider());
 }

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'core/theme/app_theme.dart';
 import 'features/auth/presentation/pages/auth_gate.dart';
 import 'features/auth/presentation/providers/auth_provider.dart';
+import 'features/cart/presentation/providers/cart_provider.dart';
 import 'features/menu/presentation/providers/menu_provider.dart';
 import 'firebase_options.dart';
 import 'injection.dart' as di;
@@ -30,6 +31,9 @@ class App extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => di.sl<MenuProvider>(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => di.sl<CartProvider>(),
         ),
       ],
       child: MaterialApp(

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/utils/formatters.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
+import '../../../cart/presentation/providers/cart_provider.dart';
 import '../../domain/entities/dish_entity.dart';
 import '../providers/menu_provider.dart';
 import '../widgets/dish_image.dart';
@@ -47,6 +48,31 @@ class DishDetailPage extends StatelessWidget {
           ],
         ],
       ),
+      bottomNavigationBar: isAdmin
+          ? null
+          : SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: FilledButton.icon(
+                  onPressed: dish.isAvailable
+                      ? () {
+                          context.read<CartProvider>().add(dish);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content:
+                                  Text('"${dish.name}" savatchaga qo\'shildi'),
+                              duration: const Duration(seconds: 1),
+                            ),
+                          );
+                        }
+                      : null,
+                  icon: const Icon(Icons.add_shopping_cart),
+                  label: Text(
+                    dish.isAvailable ? 'Savatchaga qo\'shish' : 'Tugagan',
+                  ),
+                ),
+              ),
+            ),
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 600),

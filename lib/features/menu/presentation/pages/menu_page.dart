@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../auth/presentation/providers/auth_provider.dart';
+import '../../../cart/presentation/pages/cart_page.dart';
+import '../../../cart/presentation/providers/cart_provider.dart';
 import '../../domain/entities/dish_entity.dart';
 import '../providers/menu_provider.dart';
 import '../widgets/dish_card.dart';
@@ -27,15 +29,31 @@ class _MenuPageState extends State<MenuPage> {
     final menu = context.watch<MenuProvider>();
     final isAdmin =
         context.select<AuthProvider, bool>((p) => p.user?.isAdmin ?? false);
+    final cartCount = context.select<CartProvider, int>((c) => c.totalCount);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('UniBite'),
         actions: [
+          if (!isAdmin)
+            IconButton(
+              tooltip: 'Savatcha',
+              icon: Badge(
+                label: Text('$cartCount'),
+                isLabelVisible: cartCount > 0,
+                child: const Icon(Icons.shopping_cart_outlined),
+              ),
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const CartPage()),
+              ),
+            ),
           IconButton(
             icon: const Icon(Icons.logout),
             tooltip: 'Chiqish',
-            onPressed: () => context.read<AuthProvider>().logout(),
+            onPressed: () {
+              context.read<CartProvider>().clear();
+              context.read<AuthProvider>().logout();
+            },
           ),
         ],
       ),
