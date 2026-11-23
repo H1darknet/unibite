@@ -2,6 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
 import 'package:get_it/get_it.dart';
 
+import 'features/menu/data/datasources/menu_remote_datasource.dart';
+import 'features/menu/data/repositories/menu_repository_impl.dart';
+import 'features/menu/domain/repositories/menu_repository.dart';
+import 'features/menu/domain/usecases/add_dish_usecase.dart';
+import 'features/menu/domain/usecases/delete_dish_usecase.dart';
+import 'features/menu/domain/usecases/update_dish_usecase.dart';
+import 'features/menu/domain/usecases/watch_dishes_usecase.dart';
+
 import 'features/auth/data/datasources/auth_remote_datasource.dart';
 import 'features/auth/data/repositories/auth_repository_impl.dart';
 import 'features/auth/domain/repositories/auth_repository.dart';
@@ -37,4 +45,14 @@ Future<void> init() async {
       getCurrentUser: sl(),
     ),
   );
-}
+  // Menu: datasource -> repository -> usecase
+  sl.registerLazySingleton<MenuRemoteDataSource>(
+    () => MenuRemoteDataSourceImpl(firestore: sl()),
+  );
+  sl.registerLazySingleton<MenuRepository>(() => MenuRepositoryImpl(sl()));
+
+  sl.registerLazySingleton(() => WatchDishesUseCase(sl()));
+  sl.registerLazySingleton(() => AddDishUseCase(sl()));
+  sl.registerLazySingleton(() => UpdateDishUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteDishUseCase(sl()));
+}   // <- init() funksiyasining oxiri
